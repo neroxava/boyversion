@@ -13,16 +13,16 @@ window.addEventListener('load', () => {
 
 const messages = [
     {
-        text: "asal kamu tau ya",
-        image: "https://i.pinimg.com/736x/ab/b0/58/abb0581f447719a6c871c3bb6ed965d3.jpg"
+        text: "actually",
+        image: "https://files.catbox.moe/s011yr.jpeg"
     },
     {
-        text: "sebenarnya kamu mau klik kiri kan??",
-        image: "https://i.pinimg.com/736x/e9/10/24/e91024117d5cb85f81e15b498af01de1.jpg"
+        text: "there some secret",
+        image: "https://files.catbox.moe/1wavsk.jpeg"
     },
     {
-        text: "terakhir, aku betmut",
-        image: "https://i.pinimg.com/736x/83/7f/06/837f0653024e8593bbfed3cd9bfae861.jpg"
+        text: "really want to know..?",
+        image: "https://files.catbox.moe/ey2zom.jpeg"
     }
 ];
 
@@ -185,3 +185,4 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
