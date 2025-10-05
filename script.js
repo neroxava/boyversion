@@ -13,10 +13,6 @@ window.addEventListener('load', () => {
 
 const messages = [
     {
-        text: "actually",
-        image: "https://files.catbox.moe/1wavsk.jpeg"
-    },
-    {
         text: "there some secret",
         image: "https://files.catbox.moe/ey2zom.jpeg"
     },
@@ -186,6 +182,7 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
 
