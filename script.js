@@ -135,11 +135,11 @@ yesBtn.addEventListener('click', () => {
         noCount++;
         title.innerHTML = messages[0].text;
         document.querySelector('img').src = messages[0].image;
-        yesBtn.innerHTML = "IYAAAA";
+        yesBtn.innerHTML = "YES";
         noBtn.style.display = 'none'; // Hide no button after first yes
     } else {
         // Final acceptance
-        title.innerHTML = "YEAAYY! aku tau kamu bakal nerima HEHEHE";
+        title.innerHTML = "I LOVE YOUU!!";
         document.querySelector('img').remove();
         
         // Remove both buttons from the DOM completely
@@ -154,12 +154,12 @@ yesBtn.addEventListener('click', () => {
 });
 
 noBtn.addEventListener('click', () => {
-    if (noCount < 3) {
+    if (noCount < 100) {
         noCount++;
         title.innerHTML = messages[noCount - 1].text;
         document.querySelector('img').src = messages[noCount - 1].image;
     } else {
-        title.innerHTML = "WLEE GABISA SEGAMPANG ITU";
+        title.innerHTML = "nice try, but it ain't that easy🥀";
         if (!noBtn.classList.contains('running')) {
             noBtn.classList.add('running');
         }
@@ -185,3 +185,4 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
