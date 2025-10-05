@@ -13,7 +13,7 @@ window.addEventListener('load', () => {
 
 const messages = [
     {
-        text: "there some secret",
+        text: "There some secrets I wanna tell",
         image: "https://files.catbox.moe/1wavsk.jpeg"
     },
     {
@@ -129,23 +129,39 @@ function getFarPosition(containerRect, windowWidth, windowHeight, buttonWidth, b
 
 yesBtn.addEventListener('click', () => {
     if (noCount === 0) {
-        // First click - start confession
+        // Klik pertama: mulai cerita
         noCount++;
         title.innerHTML = messages[0].text;
         document.querySelector('img').src = messages[0].image;
         yesBtn.innerHTML = "YES";
-        noBtn.style.display = 'none'; // Hide no button after first yes
+        noBtn.style.display = 'none'; // sembunyiin no button
     } else {
-        // Final acceptance
-        title.innerHTML = "I LOVE YOUU....";
-        document.querySelector('img').remove();
-        
-        // Remove both buttons from the DOM completely
+        // Klik kedua (terima)
+        title.textContent = "I LOVE YOUUU!";
+
+        // Hapus gambar lama biar gak numpuk
+        const oldImg = document.querySelector('.container img');
+        if (oldImg) oldImg.remove();
+
+        // Tambah gambar baru DI BAWAH teks
+        const newImg = document.createElement('img');
+        newImg.src = "https://files.catbox.moe/f3ljno.jpeg";
+        newImg.alt = "happy";
+        newImg.style.maxWidth = "250px";
+        newImg.style.marginTop = "15px";
+        newImg.style.borderRadius = "10px";
+        newImg.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
+        newImg.style.animation = "fadeIn 1s ease";
+
+        // Masukin gambar ke container
+        title.insertAdjacentElement('afterend', newImg);
+
+        // Hapus tombol
         noBtn.remove();
         yesBtn.remove();
-        
-        // Create more hearts for celebration
-        for(let i = 0; i < 50; i++) {
+
+        // Efek hati
+        for (let i = 0; i < 50; i++) {
             setTimeout(() => createHeart(), Math.random() * 1000);
         }
     }
@@ -182,6 +198,7 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
 
