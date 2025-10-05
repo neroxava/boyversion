@@ -153,23 +153,38 @@ yesBtn.addEventListener('click', () => {
     }
 });
 
-noBtn.addEventListener('click', () => {
-    if (noCount < 3) {
+yesBtn.addEventListener('click', () => {
+    if (noCount === 0) {
+        // First click - start confession
         noCount++;
-        title.innerHTML = messages[noCount - 1].text;
-        document.querySelector('img').src = messages[noCount - 1].image;
+        title.innerHTML = messages[0].text;
+        document.querySelector('img').src = messages[0].image;
+        yesBtn.innerHTML = "YESSS";
+        noBtn.style.display = 'none'; // Hide no button after first yes
     } else {
-        title.innerHTML = "WLEE GABISA SEGAMPANG ITU";
-        if (!noBtn.classList.contains('running')) {
-            noBtn.classList.add('running');
+        // Final acceptance
+        title.innerHTML = `
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+                <span style="font-size:1.3em;">I LOVE YOUU!!!</span>
+                <img 
+                    src="https://files.catbox.moe/f3ljno.jpeg" 
+                    alt="happy" 
+                    style="max-width:250px; margin-top:15px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); animation:fadeIn 1s ease;">
+            </div>
+        `;
+
+        // Hapus gambar utama biar gak dobel
+        const oldImg = document.querySelector('.container img');
+        if (oldImg) oldImg.remove();
+
+        // Hapus tombol
+        noBtn.remove();
+        yesBtn.remove();
+
+        // Tambahin efek hati banyak
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => createHeart(), Math.random() * 1000);
         }
-        // Always run away on click after 3 clicks
-        runAway({ 
-            target: noBtn, 
-            type: 'click',
-            clientX: event.clientX || event.touches?.[0]?.clientX,
-            clientY: event.clientY || event.touches?.[0]?.clientY
-        });
     }
 });
 
@@ -185,4 +200,5 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
