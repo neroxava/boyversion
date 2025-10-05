@@ -135,30 +135,6 @@ yesBtn.addEventListener('click', () => {
         noCount++;
         title.innerHTML = messages[0].text;
         document.querySelector('img').src = messages[0].image;
-        yesBtn.innerHTML = "IYAAAA";
-        noBtn.style.display = 'none'; // Hide no button after first yes
-    } else {
-        // Final acceptance
-        title.innerHTML = "YEAAYY! aku tau kamu bakal nerima HEHEHE";
-        document.querySelector('img').remove();
-        
-        // Remove both buttons from the DOM completely
-        noBtn.remove();
-        yesBtn.remove();
-        
-        // Create more hearts for celebration
-        for(let i = 0; i < 50; i++) {
-            setTimeout(() => createHeart(), Math.random() * 1000);
-        }
-    }
-});
-
-yesBtn.addEventListener('click', () => {
-    if (noCount === 0) {
-        // First click - start confession
-        noCount++;
-        title.innerHTML = messages[0].text;
-        document.querySelector('img').src = messages[0].image;
         yesBtn.innerHTML = "YESSS";
         noBtn.style.display = 'none'; // Hide no button after first yes
     } else {
@@ -188,6 +164,26 @@ yesBtn.addEventListener('click', () => {
     }
 });
 
+noBtn.addEventListener('click', () => {
+    if (noCount < 3) {
+        noCount++;
+        title.innerHTML = messages[noCount - 1].text;
+        document.querySelector('img').src = messages[noCount - 1].image;
+    } else {
+        title.innerHTML = "WLEE GABISA SEGAMPANG ITU";
+        if (!noBtn.classList.contains('running')) {
+            noBtn.classList.add('running');
+        }
+        // Always run away on click after 3 clicks
+        runAway({ 
+            target: noBtn, 
+            type: 'click',
+            clientX: event.clientX || event.touches?.[0]?.clientX,
+            clientY: event.clientY || event.touches?.[0]?.clientY
+        });
+    }
+});
+
 // Make button run away on hover/touch
 const handleButtonDodge = (e) => {
     if (noCount >= 3) {
@@ -200,5 +196,6 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
