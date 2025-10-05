@@ -18,7 +18,7 @@ const messages = [
     },
     {
         text: "really want to know..?",
-        image: "https://files.catbox.moe/f3ljno.jpeg"
+        image: "https://files.catbox.moe/ey2zom.jpeg"
     }
 ];
 
@@ -182,6 +182,7 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
 
