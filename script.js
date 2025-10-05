@@ -129,48 +129,38 @@ function getFarPosition(containerRect, windowWidth, windowHeight, buttonWidth, b
     return positions[Math.floor(Math.random() * positions.length)];
 }
 
+
+
 yesBtn.addEventListener('click', () => {
     if (noCount === 0) {
         // First click - start confession
         noCount++;
         title.innerHTML = messages[0].text;
         document.querySelector('img').src = messages[0].image;
-        yesBtn.innerHTML = "YESSS";
+        yesBtn.innerHTML = "YES";
         noBtn.style.display = 'none'; // Hide no button after first yes
     } else {
         // Final acceptance
-        title.innerHTML = `
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-                <span style="font-size:1.3em;">I LOVE YOUU!!!</span>
-                <img 
-                    src="https://files.catbox.moe/f3ljno.jpeg" 
-                    alt="happy" 
-                    style="max-width:250px; margin-top:15px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2); animation:fadeIn 1s ease;">
-            </div>
-        `;
-
-        // Hapus gambar utama biar gak dobel
-        const oldImg = document.querySelector('.container img');
-        if (oldImg) oldImg.remove();
-
-        // Hapus tombol
+        title.innerHTML = "I LOVE YOUU....";
+        document.querySelector('img').remove();
+        
+        // Remove both buttons from the DOM completely
         noBtn.remove();
         yesBtn.remove();
-
-        // Tambahin efek hati banyak
-        for (let i = 0; i < 50; i++) {
+        
+        // Create more hearts for celebration
+        for(let i = 0; i < 50; i++) {
             setTimeout(() => createHeart(), Math.random() * 1000);
         }
     }
 });
-
 noBtn.addEventListener('click', () => {
     if (noCount < 3) {
         noCount++;
         title.innerHTML = messages[noCount - 1].text;
         document.querySelector('img').src = messages[noCount - 1].image;
     } else {
-        title.innerHTML = "WLEE GABISA SEGAMPANG ITU";
+        title.innerHTML = "it's not that easy🥀";
         if (!noBtn.classList.contains('running')) {
             noBtn.classList.add('running');
         }
@@ -196,6 +186,7 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
 
