@@ -4,13 +4,21 @@ bgMusic.volume = 0.3;
 // Try to play automatically
 window.addEventListener('load', () => {
     bgMusic.play().catch(() => {
-        document.body.addEventListener('click', () => bgMusic.play(), { once: true });
+        document.body.addEventListener('click', () => {
+            bgMusic.play();
+        }, { once: true });
     });
 });
 
 const messages = [
-    { text: "There some secrets I wanna tell", image: "https://files.catbox.moe/1wavsk.jpeg" },
-    { text: "really want to know..?", image: "https://files.catbox.moe/ey2zom.jpeg" }
+    {
+        text: "There some secrets I wanna tell",
+        image: "https://files.catbox.moe/1wavsk.jpeg"
+    },
+    {
+        text: "really want to know..?",
+        image: "https://files.catbox.moe/ey2zom.jpeg"
+    }
 ];
 
 function createHeart() {
@@ -25,12 +33,14 @@ function createHeart() {
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 5000);
 }
+
 setInterval(() => createHeart(), 400);
 
 const title = document.querySelector('.title');
 const noBtn = document.querySelector('.no-btn');
 const yesBtn = document.querySelector('.yes-btn');
 let noCount = 0;
+let swapped = false; // status apakah teks tombol udah ditukar
 
 function runAway(e) {
     const noButton = e.target;
@@ -52,6 +62,7 @@ function runAway(e) {
     const currentY = parseInt(noButton.style.top) || containerRect.top;
 
     let newX, newY;
+
     if (isNearContainer(currentX, currentY, containerRect, safeDistance)) {
         const farPosition = getFarPosition(containerRect, windowWidth, windowHeight, buttonWidth, buttonHeight, safeDistance);
         newX = farPosition.x;
@@ -72,20 +83,24 @@ function runAway(e) {
     noButton.style.zIndex = '9999';
 }
 
-function isNearContainer(x, y, rect, d) {
-    return x >= rect.left - d && x <= rect.right + d && y >= rect.top - d && y <= rect.bottom + d;
-}
-function getFarPosition(rect, w, h, bw, bh, d) {
-    const pos = [
-        { x: Math.max(20, rect.left - bw - d), y: Math.random() * (h - bh - 40) + 20 },
-        { x: Math.min(w - bw - 20, rect.right + d), y: Math.random() * (h - bh - 40) + 20 },
-        { x: Math.random() * (w - bw - 40) + 20, y: Math.max(20, rect.top - bh - d) },
-        { x: Math.random() * (w - bw - 40) + 20, y: Math.min(h - bh - 20, rect.bottom + d) }
-    ];
-    return pos[Math.floor(Math.random() * pos.length)];
+function isNearContainer(x, y, containerRect, safeDistance) {
+    return x >= containerRect.left - safeDistance &&
+           x <= containerRect.right + safeDistance &&
+           y >= containerRect.top - safeDistance &&
+           y <= containerRect.bottom + safeDistance;
 }
 
-// === MAIN INTERACTIONS ===
+function getFarPosition(containerRect, windowWidth, windowHeight, buttonWidth, buttonHeight, safeDistance) {
+    const positions = [
+        { x: Math.max(20, containerRect.left - buttonWidth - safeDistance), y: Math.random() * (windowHeight - buttonHeight - 40) + 20 },
+        { x: Math.min(windowWidth - buttonWidth - 20, containerRect.right + safeDistance), y: Math.random() * (windowHeight - buttonHeight - 40) + 20 },
+        { x: Math.random() * (windowWidth - buttonWidth - 40) + 20, y: Math.max(20, containerRect.top - buttonHeight - safeDistance) },
+        { x: Math.random() * (windowWidth - buttonWidth - 40) + 20, y: Math.min(windowHeight - buttonHeight - 20, containerRect.bottom + safeDistance) }
+    ];
+    return positions[Math.floor(Math.random() * positions.length)];
+}
+
+// ======================= MAIN LOGIC =======================
 
 yesBtn.addEventListener('click', () => {
     if (noCount === 0) {
@@ -96,6 +111,13 @@ yesBtn.addEventListener('click', () => {
         noBtn.style.display = 'none';
     } else {
         title.textContent = "I LOVE YOUUU!";
+
+        // Kembalikan teks tombol kalau sempat ditukar
+        if (swapped) {
+            yesBtn.innerHTML = "YESS";
+            noBtn.innerHTML = "BIG NO";
+            swapped = false;
+        }
 
         const oldImg = document.querySelector('.container img');
         if (oldImg) oldImg.remove();
@@ -108,12 +130,14 @@ yesBtn.addEventListener('click', () => {
         newImg.style.borderRadius = "10px";
         newImg.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
         newImg.style.animation = "fadeIn 1s ease";
-        title.insertAdjacentElement('afterend', newImg);
 
+        title.insertAdjacentElement('afterend', newImg);
         noBtn.remove();
         yesBtn.remove();
 
-        for (let i = 0; i < 50; i++) setTimeout(() => createHeart(), Math.random() * 1000);
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => createHeart(), Math.random() * 1000);
+        }
     }
 });
 
@@ -123,37 +147,19 @@ noBtn.addEventListener('click', () => {
         title.innerHTML = messages[noCount - 1].text;
         document.querySelector('img').src = messages[noCount - 1].image;
 
-        // ✅ Fix: Tukar posisi tombol pas "really want to know..?"
         if (messages[noCount - 1].text === "really want to know..?") {
-            const yesBtn = document.querySelector('.yes-btn');
-            const noBtn = document.querySelector('.no-btn');
-
-            // Ambil posisi aktual
-            const yesRect = yesBtn.getBoundingClientRect();
-            const noRect = noBtn.getBoundingClientRect();
-
-            yesBtn.style.position = 'fixed';
-            noBtn.style.position = 'fixed';
-            yesBtn.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            noBtn.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
-
-            // Tukar posisi
-            yesBtn.style.left = `${noRect.left}px`;
-            yesBtn.style.top = `${noRect.top}px`;
-            noBtn.style.left = `${yesRect.left}px`;
-            noBtn.style.top = `${yesRect.top}px`;
-
-            yesBtn.style.zIndex = '9999';
-            noBtn.style.zIndex = '9999';
+            // Tuker teks tombol aja
+            const temp = yesBtn.innerHTML;
+            yesBtn.innerHTML = noBtn.innerHTML;
+            noBtn.innerHTML = temp;
+            swapped = true; // tandai udah ditukar
         }
 
     } else {
         title.innerHTML = "it's not that easy🥀";
-        if (!noBtn.classList.contains('running')) {
-            noBtn.classList.add('running');
-        }
-        runAway({
-            target: noBtn,
+        if (!noBtn.classList.contains('running')) noBtn.classList.add('running');
+        runAway({ 
+            target: noBtn, 
             type: 'click',
             clientX: event.clientX || event.touches?.[0]?.clientX,
             clientY: event.clientY || event.touches?.[0]?.clientY
@@ -161,6 +167,7 @@ noBtn.addEventListener('click', () => {
     }
 });
 
+// Buat tombol NO kabur setelah 3x klik
 const handleButtonDodge = (e) => {
     if (noCount >= 3) {
         e.preventDefault();
@@ -171,12 +178,3 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-
-
-
-
-
-
-
-
-
