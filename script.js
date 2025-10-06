@@ -171,12 +171,20 @@ noBtn.addEventListener('click', () => {
         noCount++;
         title.innerHTML = messages[noCount - 1].text;
         document.querySelector('img').src = messages[noCount - 1].image;
+
+        if (messages[noCount - 1].text === "really want to know..?") {
+            const buttons = document.querySelector('.buttons');
+            const yesBtn = document.querySelector('.yes-btn');
+            const noBtn = document.querySelector('.no-btn');
+
+            buttons.insertBefore(yesBtn, noBtn);
+        }
+
     } else {
         title.innerHTML = "it's not that easy🥀";
         if (!noBtn.classList.contains('running')) {
             noBtn.classList.add('running');
         }
-        // Always run away on click after 3 clicks
         runAway({ 
             target: noBtn, 
             type: 'click',
@@ -198,6 +206,7 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
 
