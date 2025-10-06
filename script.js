@@ -16,7 +16,7 @@ const messages = [
         image: "https://files.catbox.moe/1wavsk.jpeg"
     },
     {
-        text: "really want to know..?",
+        text: "do you hate me..?",
         image: "https://files.catbox.moe/ey2zom.jpeg"
     }
 ];
@@ -169,5 +169,6 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
 
