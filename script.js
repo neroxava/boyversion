@@ -114,8 +114,8 @@ yesBtn.addEventListener('click', () => {
 
         // Kembalikan teks tombol kalau sempat ditukar
         if (swapped) {
-            yesBtn.innerHTML = "YESS";
-            noBtn.innerHTML = "BIG NO";
+            yesBtn.innerHTML = "BIG NO";
+            noBtn.innerHTML = "YESS";
             swapped = false;
         }
 
@@ -178,3 +178,4 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
