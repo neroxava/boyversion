@@ -146,15 +146,6 @@ noBtn.addEventListener('click', () => {
         noCount++;
         title.innerHTML = messages[noCount - 1].text;
         document.querySelector('img').src = messages[noCount - 1].image;
-
-        if (messages[noCount - 1].text === "really want to know..?") {
-            // Tuker teks tombol aja
-            const temp = yesBtn.innerHTML;
-            yesBtn.innerHTML = noBtn.innerHTML;
-            noBtn.innerHTML = temp;
-            swapped = true; // tandai udah ditukar
-        }
-
     } else {
         title.innerHTML = "it's not that easy🥀";
         if (!noBtn.classList.contains('running')) noBtn.classList.add('running');
@@ -178,4 +169,5 @@ const handleButtonDodge = (e) => {
 noBtn.addEventListener('mouseover', handleButtonDodge);
 noBtn.addEventListener('touchstart', handleButtonDodge, { passive: false });
 noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
 
